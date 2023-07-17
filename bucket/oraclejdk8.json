@@ -1,0 +1,62 @@
+{
+    "version": "8u371",
+    "description": "Oracle JDK 8.",
+    "homepage": "https://www.oracle.com/java/technologies/downloads/",
+    "license": {
+        "identifier": "Oracle Technology Network License Agreement for Oracle Java SE",
+        "url": "https://www.oracle.com/downloads/licenses/javase-license1.html"
+    },
+    "notes": "Java SE subscribers will receive JDK 8 updates until at least December of 2030.",
+    "architecture": {
+        "64bit": {
+            "url": "https://javadl.oracle.com/webapps/download/GetFile/1.8.0_371-b11/ce59cff5c23f4e2eaf4e778a117d4c5b/windows-i586/jdk-8u371-windows-x64.exe#dl.7z",
+            "hash": "e1c8e1b5ec827e6681f80091c3c4f4e1aafc84dc8151fc4ec1279f1b3d121988"
+        },
+        "32bit": {
+            "url": "https://javadl.oracle.com/webapps/download/GetFile/1.8.0_371-b11/ce59cff5c23f4e2eaf4e778a117d4c5b/windows-i586/jdk-8u371-windows-i586.exe#dl.7z",
+            "hash": "0fc930f7bec8b6ee26d95ee5c25d755606ee42ffd06c8a1e231bf91034524ec0"
+        }
+    },
+    "extract_to": "tmp",
+    "installer": {
+        "script": [
+            "# Java Source (src.zip)",
+            "Expand-7zipArchive \"$dir\\tmp\\.rsrc\\1033\\JAVA_CAB9\\110\" \"$dir\"",
+            "# JDK (tools.zip)",
+            "Expand-7zipArchive \"$dir\\tmp\\.rsrc\\1033\\JAVA_CAB10\\111\" \"$dir\\tmp\"",
+            "Expand-7zipArchive \"$dir\\tmp\\tools.zip\" \"$dir\"",
+            "# Copyright (COPYRIGHT)",
+            "Expand-7zipArchive \"$dir\\tmp\\.rsrc\\1033\\JAVA_CAB11\\112\" \"$dir\"",
+            "# Convert .pack to .jar, and remove .pack",
+            "pushd \"$dir\"",
+            "ls \"$dir\" -recurse | ? name -match '^[^_].*?\\.(?i)pack$' | % {",
+            "    $name = $_.fullname -replace '\\.(?i)pack$', ''",
+            "    $pack = \"$name.pack\"",
+            "    $jar = \"$name.jar\"",
+            "    & \"bin\\unpack200.exe\" \"-r\" \"$pack\" \"$jar\"",
+            "}",
+            "rm -r tmp | out-null",
+            "popd"
+        ]
+    },
+    "env_add_path": "bin",
+    "env_set": {
+        "JAVA_HOME": "$dir"
+    },
+    "checkver": {
+        "url": "https://www.oracle.com/java/technologies/downloads/",
+        "useragent": "curl/7",
+        "regex": "https://download\\.oracle\\.com/otn/java/jdk/8u(?<build>(?<versionNum>[\\d]+)\\-[a-zA-Z\\d]+)/(?<hash>[\\da-z]{32})/jdk\\-8u[\\d]+-windows-x64.exe",
+        "replace": "8u${versionNum}"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://javadl.oracle.com/webapps/download/GetFile/1.8.0_$matchBuild/$matchHash/windows-i586/jdk-$version-windows-x64.exe#dl.7z"
+            },
+            "32bit": {
+                "url": "https://javadl.oracle.com/webapps/download/GetFile/1.8.0_$matchBuild/$matchHash/windows-i586/jdk-$version-windows-i586.exe#dl.7z"
+            }
+        }
+    }
+}
