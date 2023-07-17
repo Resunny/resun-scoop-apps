@@ -1,11 +1,11 @@
 {
-    "version": "0.14.3",
+    "version": "0.15.0",
     "description": "【小狼毫】Rime for Windows",
     "homepage": "https://rime.im/",
     "license": "GPL-3.0",
     "depends": "sudo",
     "url": [
-        "https://github.com/rime/weasel/releases/download/0.14.3/weasel-0.14.3.0-installer.exe#/dl.7z",
+        "https://github.com/rime/weasel/releases/download/0.15.0/weasel-0.15.0.0-installer.exe",
         "https://raw.githubusercontent.com/rime/weasel/master/output/install.bat",
         "https://raw.githubusercontent.com/rime/weasel/master/output/uninstall.bat",
         "https://raw.githubusercontent.com/rime/weasel/master/output/stop_service.bat",
@@ -17,9 +17,7 @@
         "https://raw.githubusercontent.com/SayCV/scoop-cvp/main/scripts/rime-weasel/weasel.custom.yaml",
         "https://raw.githubusercontent.com/SayCV/scoop-cvp/main/scripts/rime-weasel/start_WeaselServer.cmd"
     ],
-    "hash": [
-        "de63dc2ef45d5b094a239fc704051270f3185bf9e883132532b7e17d2fdaf81b"
-    ],
+    "hash": "21b2b3ba19f11b308db3c50ce343a14a42ce10331e3c0b7021850ec6726dcd10",
     "pre_install": [
         "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\Uninstall.exe\" -Force -Recurse",
         "if (-not (Test-Path \"$dir\\WeaselSetupx64.exe\")) { cmd.exe /c mklink /h \"$dir\\WeaselSetupx64.exe\" \"$dir\\WeaselSetup.exe\" }",
@@ -104,9 +102,7 @@
         "rime_dir": "$persist_dir\\AppData",
         "plum_dir": "$persist_dir\\AppData\\plum"
     },
-    "persist": [
-        "AppData"
-    ],
+    "persist": "AppData",
     "checkver": {
         "github": "https://github.com/rime/weasel",
         "regex": "/releases/tag/([\\d.]+)"
